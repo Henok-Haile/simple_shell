@@ -93,7 +93,7 @@ char **tokenizer(char *str, char *delim)
 
     while (str)
     {
-        // extract token to array
+        /* extract token to array */
         /* Scan leading delimiters and remove */
         str += _strspn (str, delim);
         if (*str == '\0')
