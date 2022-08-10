@@ -6,23 +6,23 @@
  */
 int main(void)
 {
-    ssize_t len = 0;
+	ssize_t len = 0;
 	char *buff = NULL, *value, *pathname, **argv;
 	size_t size = 0;
-    list_path_t *head = '\0';
+	list_path_t *head = '\0';
 	void (*f)(char **);
     /* signal handling */
-    signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 
-    while (len != EOF)
-    {
-        _isatty();
+	while (len != EOF)
+	{
+		_isatty();
 		len = _getline(&buff, &size, 0);
 		_EOF(len, buff);
 		argv = tokenizer(buff, " \n");
 		if (!argv || !argv[0])
 			execute(argv);
-        else
+		else
 		{
 			value = _getenv("PATH");
 			head = linkpath(value);
@@ -42,10 +42,10 @@ int main(void)
 				execute(argv);
 			}
 		}
-    }
+	}
 
-    free_list(head);
+	free_list(head);
 	free_argv(argv);
 	free(buff);
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
