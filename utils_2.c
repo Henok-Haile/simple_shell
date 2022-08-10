@@ -35,13 +35,13 @@ char *_strncpy(char *dest, char *src, int n)
 char *_memset(char *s, int c_in, unsigned int n)
 {
 	unsigned int i;
-    unsigned char c;
+	unsigned char c;
     /* cast int to char */
-    c = (unsigned char) c_in;
+	c = (unsigned char) c_in;
 
 	for (i = 0; i < n; i++)
 		s[i] = c;
-	
+
 	return (s);
 }
 
@@ -85,10 +85,10 @@ unsigned int _strcspn(char *s, char *accept)
 		{
 			if (s[i] == accept[j])
 			{
-                // set value and break
-                pos = i;
-                break;
-            }
+				/* set value and break */
+				pos = i;
+				break;
+			}
 		}
 		if (pos || !s[i])
 			break;
