@@ -12,8 +12,8 @@ void sig_handler(int sig_num)
 
 /**
  * _EOF - function to handle End Of File
- * @len:
- * @buff:
+ * @len: lenght
+ * @buff: buffer
  */
 void _EOF(int len, char *buff)
 {

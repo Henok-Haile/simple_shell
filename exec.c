@@ -73,12 +73,12 @@ void execute(char **argv)
 
 	if (!argv || !argv[0])
 		return;
-	
-    new_process = fork();
+
+	new_process = fork();
 	if (new_process == -1)
 		perror(_getenv("_"));
-	
-    if (new_process == 0)
+
+	if (new_process == 0)
 	{
 		execve(argv[0], argv, environ);
 			perror(argv[0]);

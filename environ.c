@@ -21,7 +21,6 @@ void env(char **arv __attribute__ ((unused)))
  * @name: name of the global variable
  * Return: string of value
  */
-// char *_getenv(const char *name);
 char *_getenv(const char *name)
 {
 	int i, j;
@@ -55,7 +54,6 @@ char *_getenv(const char *name)
  * _setenv - Initialize a new environment variable, or modify an existing one
  * @arv: array of entered words
  */
-// int _setenv(const char *name, const char *value, int overwrite);
 void _setenv(char **arv)
 {
 	int i, j, k;
@@ -104,7 +102,6 @@ void _setenv(char **arv)
  * _unsetenv - Remove an environment variable
  * @arv: array of entered words
  */
-// int _unsetenv(const char *name);
 void _unsetenv(char **arv)
 {
 	int i, j;

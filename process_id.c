@@ -33,10 +33,10 @@ void print_number(int n)
  */
 void _getpid(void)
 {
-    pid_t my_pid;
+	pid_t my_pid;
 
-    my_pid = getpid();
-    print_number(my_pid);
+	my_pid = getpid();
+	print_number(my_pid);
 }
 
 /**
@@ -46,8 +46,8 @@ void _getpid(void)
  */
 void _getppid(void)
 {
-    pid_t ppid;
+	pid_t ppid;
 
-    ppid = getppid();
-    print_number(ppid);
+	ppid = getppid();
+	print_number(ppid);
 }

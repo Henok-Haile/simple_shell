@@ -30,8 +30,8 @@ unsigned int _strcspn(char *s, char *accept);
 
 /* print process id */
 void print_number(int n);
-void _getpid();
-void _getppid();
+void _getpid(void);
+void _getppid(void);
 
 /* prompt: handles signal from terminal */
 void sig_handler(int sig_num);
@@ -58,15 +58,15 @@ typedef struct buildins
 } buildin_t;
 /* Note that fileno(stdin) is 0 */
 int _getline(char **buffer, size_t *bufsize, int fd);
-char *_strleft (char *str, char *delim);
+char *_strleft(char *str, char *delim);
 char **tokenizer(char *str, char *delim);
 void(*buildins(char **arv))(char **arv);
 
 /* tools testing */
 unsigned int _strspn(char *s, char *accept);
 unsigned int _strcspn(char *s, char *accept);
-char *_strtok_r_gcc (char *s, char *delim, char **save_ptr);
-char *_strtok_gcc (char *s, char *delim);
+char *_strtok_r_gcc(char *s, char *delim, char **save_ptr);
+char *_strtok_gcc(char *s, char *delim);
 
 /* environment */
 void env(char **arv __attribute__ ((unused)));

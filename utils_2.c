@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * _strncpy - copies the string
  * @dest: array that returns
@@ -28,20 +27,20 @@ char *_strncpy(char *dest, char *src, int n)
 /**
  * _memset - fills memory with a constant byte.
  * @s: source string
- * @b: the constant byte for filling
+ * @c_in: the constant byte for filling
  * @n: lenght of buffer
  * Return: new string.
  */
 char *_memset(char *s, int c_in, unsigned int n)
 {
 	unsigned int i;
-    unsigned char c;
-    /* cast int to char */
-    c = (unsigned char) c_in;
+	unsigned char c;
+/* cast int to char */
+	c = (unsigned char) c_in;
 
 	for (i = 0; i < n; i++)
 		s[i] = c;
-	
+
 	return (s);
 }
 
@@ -85,10 +84,10 @@ unsigned int _strcspn(char *s, char *accept)
 		{
 			if (s[i] == accept[j])
 			{
-                // set value and break
-                pos = i;
-                break;
-            }
+				/* set value and break */
+				pos = i;
+				break;
+			}
 		}
 		if (pos || !s[i])
 			break;
