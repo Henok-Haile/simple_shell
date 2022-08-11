@@ -24,12 +24,10 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 			return (MEM_ERROR, 0);
 		*buffer = buff;
 	}
-    /* initialize buff with '\0' */
 	for (i = 0; i < size; i++)
 		buff[i] = '\0';
-    i = 0;
+	i = 0;
 	do {
-
 		r = read(fd, buff + len, BUFF_SIZE);
 		if (r >= 0)
 			i = len, len += r;
@@ -50,7 +48,6 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 				return (len);
 			}
 		}
-
 	} while (1);
 	return (len);
 }
@@ -62,64 +59,64 @@ int _getline(char **buffer, size_t *bufsize, int fd)
  * Return: pointer to the string remaining after tokenized
  * or NULL if no string remains
  */
-char *_strleft (char *str, char *delim)
+char *_strleft(char *str, char *delim)
 {
-    /* Scan leading delimiters.  */
-    str += _strspn (str, delim);
-    unsigned int len = _strcspn(str, delim);
-    str += len;
-    /* Scan leading delimiters.  */
-    if (*str == '\0')
-        return (NULL);
-    if (len == 0)
-        return (NULL);
-    /* Find the end of the first token and update str_left. */
-    return (str);
+	unsigned int len;
+	/* Scan leading delimiters.  */
+	str += _strspn(str, delim);
+	len = _strcspn(str, delim);
+	str += len;
+	/* Scan leading delimiters.  */
+	if (*str == '\0')
+		return (NULL);
+	if (len == 0)
+		return (NULL);
+	/* Find the end of the first token and update str_left. */
+	return (str);
 }
 /**
- * splitstring - splits a string and makes it an array of pointers to words
+ * tokenizer - splits a string and makes it an array of pointers to words
  * @str: the string to be split
  * @delim: the delimiter
  * Return: array of pointers to words
  */
 char **tokenizer(char *str, char *delim)
 {
-    char **array;
-    char table[256];
-    char *token;
-    int len, i = 0, buffer = 3;
+	char **arr;
+	char table[256];
+	char *token;
+	int len, i = 0, b = 3;
 
-    array = malloc((sizeof(char *) * buffer));
+	arr = malloc((sizeof(char *) * b));
+	while (str)
+	{
+		/* extract token to array */
+		/* Scan leading delimiters and remove */
+		str += _strspn(str, delim);
+		if (*str == '\0')
+			break;
+		/* check delimiter on updated string */
+		len = _strcspn(str, delim);
 
-    while (str)
-    {
-        /* extract token to array */
-        /* Scan leading delimiters and remove */
-        str += _strspn (str, delim);
-        if (*str == '\0')
-            break;
-        /* check delimiter on updated string */
-        len = _strcspn(str, delim);
-        
-        token = _memset(table, 0, 256);
-        if ((len == 0))
-        {
-            token = str;
-            array[i] = _strdup(token);
-            break;
-        }
-        /* update token */
-        token = _strncpy(token, str, len);
-        array[i] = _strdup(token);
-		array = _realloc(array, (sizeof(char *) * (buffer - 1)), (sizeof(char *) * buffer));
-        str = _strleft(str, delim);
-        i++;
-        buffer++;
-    }
-    return (array);
+		token = _memset(table, 0, 256);
+		if ((len == 0))
+		{
+			token = str;
+			arr[i] = _strdup(token);
+			break;
+		}
+		/* update token */
+		token = _strncpy(token, str, len);
+		arr[i] = _strdup(token);
+		arr = _realloc(arr, (sizeof(char *) * (b - 1)), (sizeof(char *) * b));
+		str = _strleft(str, delim);
+		i++;
+		b++;
+	}
+	return (arr);
 }
 /**
-* checkbuild - checks if the command is a buildin
+* buildins - checks if the command is a buildin
 * @arv: array of arguments
 * Return: pointer to function that takes arv and returns void
 */
