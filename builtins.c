@@ -1,149 +1,39 @@
-#include "main.h"
-/**
- * _getline - read a string or a line from an input stream
- * @buffer: pointer to a space where the stdin read will be saved
- * as a string
- * @bufsize: current size of buffer (must be given as 0 initially)
- * @fd: stream to read
- *
- * Return: Number of Characters Read
- */
-int _getline(char **buffer, size_t *bufsize, int fd)
-{
-	static char *buff;
-	static size_t size;
-	unsigned int len = 0, i = 0, sizeold;
-	int r;
+#include "builtins.h"
 
-	if (*bufsize == 0)
-		size = BUFF_SIZE;
-	if (*buffer == 0)
-	{
-		buff = malloc(sizeof(char) * size);
-		if (!buff)
-			return (MEM_ERROR, 0);
-		*buffer = buff;
-	}
-	for (i = 0; i < size; i++)
-		buff[i] = '\0';
-	i = 0;
-	do {
-		r = read(fd, buff + len, BUFF_SIZE);
-		if (r >= 0)
-			i = len, len += r;
-		if (r == -1 || r == 0)
-			return (-1);
-		if  (len >= size)
-		{
-			sizeold = size, size += BUFF_SIZE;
-			buff = _realloc(buff, sizeold, size);
-			if (!buff)
-				return (MEM_ERROR, 0);
-		}
-		for (; i < len; i++)
-		{
-			if (buff[i] == '\n')
-			{
-				*buffer = buff, *bufsize = size;
-				return (len);
-			}
-		}
-	} while (1);
-	return (len);
-}
 /**
- * _strleft - tokenizes a string based on a delimiter
- * @str: string to operate
- * @delim: delimiter
- *
- * Return: pointer to the string remaining after tokenized
- * or NULL if no string remains
+ * get_builtins - get the builtins
+ * Return: pointer to a NULL-terminated statically-allocated array of builtins
  */
-char *_strleft(char *str, char *delim)
+const builtin_t *get_builtins(void)
 {
-	unsigned int len;
-	/* Scan leading delimiters.  */
-	str += _strspn(str, delim);
-	len = _strcspn(str, delim);
-	str += len;
-	/* Scan leading delimiters.  */
-	if (*str == '\0')
-		return (NULL);
-	if (len == 0)
-		return (NULL);
-	/* Find the end of the first token and update str_left. */
-	return (str);
-}
-/**
- * tokenizer - splits a string and makes it an array of pointers to words
- * @str: the string to be split
- * @delim: the delimiter
- * Return: array of pointers to words
- */
-char **tokenizer(char *str, char *delim)
-{
-	char **arr;
-	char table[256];
-	char *token;
-	int len, i = 0, b = 3;
-
-	arr = malloc((sizeof(char *) * b));
-	while (str)
-	{
-		/* extract token to array */
-		/* Scan leading delimiters and remove */
-		str += _strspn(str, delim);
-		if (*str == '\0')
-			break;
-		/* check delimiter on updated string */
-		len = _strcspn(str, delim);
-
-		token = _memset(table, 0, 256);
-		if ((len == 0))
-		{
-			token = str;
-			arr[i] = _strdup(token);
-			break;
-		}
-		/* update token */
-		token = _strncpy(token, str, len);
-		arr[i] = _strdup(token);
-		arr = _realloc(arr, (sizeof(char *) * (b - 1)), (sizeof(char *) * b));
-		str = _strleft(str, delim);
-		i++;
-		b++;
-	}
-	return (arr);
-}
-/**
-* buildins - checks if the command is a buildin
-* @arv: array of arguments
-* Return: pointer to function that takes arv and returns void
-*/
-void(*buildins(char **arv))(char **arv)
-{
-	int i, j;
-	buildin_t T[] = {
-		{"exit", _exit_sh},
-		{"env", env},
-		{"setenv", _setenv},
-		{"unsetenv", _unsetenv},
-		{NULL, NULL}
+	static builtin_t builtins[] = {
+		{"alias", __alias, ALIAS_HELP, ALIAS_DESC},
+		{"cd", __cd, CD_HELP, CD_DESC},
+		{"env", __env, ENV_HELP, ENV_DESC},
+		{"exec", __exec, EXEC_HELP, EXEC_DESC},
+		{"exit", __exit, EXIT_HELP, EXIT_DESC},
+		{"help", __help, HELP_HELP, HELP_DESC},
+		{"setenv", __setenv, SETENV_HELP, SETENV_DESC},
+		{"unsetenv", __unsetenv, UNSETENV_HELP, UNSETENV_DESC},
+		{0}
 	};
 
-	for (i = 0; T[i].name; i++)
+	return (builtins);
+}
+
+/**
+ * get_builtin - get a builtin by name
+ * @name: the name of the builtin to retrieve
+ * Return: NULL if no match is found, otherwise a pointer to the builtin
+ */
+const builtin_t *get_builtin(const char *name)
+{
+	const builtin_t *builtin = NULL;
+
+	for (builtin = get_builtins(); builtin->name; builtin += 1)
 	{
-		j = 0;
-		if (T[i].name[j] == arv[0][j])
-		{
-			for (j = 0; arv[0][j]; j++)
-			{
-				if (T[i].name[j] != arv[0][j])
-					break;
-			}
-			if (!arv[0][j])
-				return (T[i].func);
-		}
+		if (_strcmp(name, builtin->name) == 0)
+			return (builtin);
 	}
-	return (0);
+	return (NULL);
 }
